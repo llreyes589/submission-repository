@@ -3,9 +3,9 @@ import Part from "./Part";
 const Content = (props) => {
   return (
     <div>
-      <Part part={props.part1} exercises={props.exercises1} />
-      <Part part={props.part2} exercises={props.exercises2} />
-      <Part part={props.part2} exercises={props.exercises2} />
+      {props.parts.map((part, index) => (
+        <Part key={index} part={part.name} exercises={part.exercises} />
+      ))}
     </div>
   );
 };
