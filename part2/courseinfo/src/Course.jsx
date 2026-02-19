@@ -4,18 +4,12 @@ import Content from "./Content";
 import Total from "./Total";
 
 const Course = ({ course }) => {
+  const total = course.parts.reduce((acc, cur) => acc + cur.exercises, 0);
   return (
     <div>
       <Header course={course.name} />
       <Content parts={course.parts} />
-      <Total
-        total={
-          course.parts[0].exercises +
-          course.parts[1].exercises +
-          course.parts[2].exercises +
-          course.parts[3].exercises
-        }
-      />
+      <Total total={total} />
     </div>
   );
 };
