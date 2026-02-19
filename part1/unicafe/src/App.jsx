@@ -22,7 +22,7 @@ const Statistics = ({ good, neutral, bad }) => {
         return total === 0 ? 0 : (good - bad) / total;
       },
       getPositiveFeedback: () => {
-        return total === 0 ? 0 : (good / total) * 100;
+        return total === 0 ? 0 : (good / total) * 100 + "%";
       },
     };
   };
@@ -34,17 +34,19 @@ const Statistics = ({ good, neutral, bad }) => {
       {appStat.getTotal() === 0 ? (
         <p>No feedback given</p>
       ) : (
-        <>
-          <StatisticLine text="good" value={good} />
-          <StatisticLine text="neutral" value={neutral} />
-          <StatisticLine text="bad" value={bad} />
-          <StatisticLine text="all" value={appStat.getTotal()} />
-          <StatisticLine text="average" value={appStat.getAverage()} />
-          <StatisticLine
-            text="positive"
-            value={appStat.getPositiveFeedback()}
-          />
-        </>
+        <table>
+          <tbody>
+            <StatisticLine text="good" value={good} />
+            <StatisticLine text="neutral" value={neutral} />
+            <StatisticLine text="bad" value={bad} />
+            <StatisticLine text="all" value={appStat.getTotal()} />
+            <StatisticLine text="average" value={appStat.getAverage()} />
+            <StatisticLine
+              text="positive"
+              value={appStat.getPositiveFeedback()}
+            />
+          </tbody>
+        </table>
       )}
     </>
   );
@@ -52,9 +54,10 @@ const Statistics = ({ good, neutral, bad }) => {
 
 const StatisticLine = ({ text, value }) => {
   return (
-    <p>
-      {text} {value}
-    </p>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   );
 };
 
