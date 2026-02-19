@@ -4,10 +4,17 @@ const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState("");
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (persons.some((person) => person.name === newName))
+      return alert(`${newName} is already added to phonebook`);
+    setPersons(persons.concat({ name: newName }));
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <form>
+      <form onSubmit={handleFormSubmit}>
         <div>
           name:{" "}
           <input value={newName} onChange={(e) => setNewName(e.target.value)} />
@@ -18,7 +25,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {persons.map((person) => (
-        <p key={person}>{person.name}</p>
+        <p key={person.name}>{person.name}</p>
       ))}
     </div>
   );
