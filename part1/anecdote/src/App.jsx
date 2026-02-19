@@ -13,6 +13,9 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const votes = Array(anecdotes.length).fill(0);
+  // const copy = [...votes];
+  const [copy, setCopy] = useState([...votes]);
 
   const getRandomNumber = (maxNumber) => {
     return Math.floor(Math.random() * maxNumber);
@@ -23,9 +26,19 @@ const App = () => {
     setSelected(selected);
   };
 
+  const handleVote = (selected) => {
+    setCopy((prevCopy) => {
+      const newCopy = [...prevCopy];
+      newCopy[selected] += 1;
+      return newCopy;
+    });
+  };
+
   return (
     <div>
       <p>{anecdotes[selected]}</p>
+      <p>has {copy[selected]} votes</p>
+      <button onClick={() => handleVote(selected)}>vote</button>
       <button onClick={handleSelectNextAnexdote}>next anecdote</button>
     </div>
   );
