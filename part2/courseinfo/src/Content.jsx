@@ -2,11 +2,10 @@ import React from "react";
 import Part from "./Part";
 
 const Content = ({ parts }) => {
-  console.log({ parts });
   return (
     <div>
       {parts.map((part) => (
-        <Part part={part} />
+        <Part key={part.id} part={part} />
       ))}
     </div>
   );
