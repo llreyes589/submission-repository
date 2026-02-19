@@ -12,7 +12,8 @@ const Course = ({ course }) => {
         total={
           course.parts[0].exercises +
           course.parts[1].exercises +
-          course.parts[2].exercises
+          course.parts[2].exercises +
+          course.parts[3].exercises
         }
       />
     </div>

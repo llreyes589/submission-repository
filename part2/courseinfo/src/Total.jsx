@@ -1,5 +1,9 @@
 import React from "react";
 
-const Total = (props) => <p>Number of exercises {props.total}</p>;
+const Total = (props) => (
+  <p>
+    <strong>total of {props.total} exercises</strong>
+  </p>
+);
 
 export default Total;
