@@ -35,15 +35,26 @@ const Statistics = ({ good, neutral, bad }) => {
         <p>No feedback given</p>
       ) : (
         <>
-          <p>good {good}</p>
-          <p>neutral {neutral}</p>
-          <p>bad {bad}</p>
-          <p>all {appStat.getTotal()}</p>
-          <p>average {appStat.getAverage()}</p>
-          <p>positive {appStat.getPositiveFeedback()}</p>
+          <StatisticLine text="good" value={good} />
+          <StatisticLine text="neutral" value={neutral} />
+          <StatisticLine text="bad" value={bad} />
+          <StatisticLine text="all" value={appStat.getTotal()} />
+          <StatisticLine text="average" value={appStat.getAverage()} />
+          <StatisticLine
+            text="positive"
+            value={appStat.getPositiveFeedback()}
+          />
         </>
       )}
     </>
+  );
+};
+
+const StatisticLine = ({ text, value }) => {
+  return (
+    <p>
+      {text} {value}
+    </p>
   );
 };
 
