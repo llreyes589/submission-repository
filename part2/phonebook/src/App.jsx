@@ -4,12 +4,14 @@ import PersonForm from "./PersonForm";
 import Persons from "./Persons";
 import { useEffect } from "react";
 import phonebookService from "./services/phonebooks";
+import Notification from "./Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchString, setSearchString] = useState("");
+  const [formSuccess, setFormSuccess] = useState("");
 
   useEffect(() => {
     const eventHandler = (response) => {
@@ -39,24 +41,26 @@ const App = () => {
           );
         });
       }
-      return;
-    }
-
-    const responseHandler = (response) => {
-      const newPhonebook = {
-        id: response.id,
-        name: response.name,
-        number: response.number,
+      // return;
+    } else {
+      const responseHandler = (response) => {
+        const newPhonebook = {
+          id: response.id,
+          name: response.name,
+          number: response.number,
+        };
+        setPersons([...persons, newPhonebook]);
       };
-      setPersons([...persons, newPhonebook]);
-    };
 
-    const newPerson = {
-      name: newName,
-      number: newNumber,
-    };
-    const promise = phonebookService.create(newPerson);
-    promise.then(responseHandler);
+      const newPerson = {
+        name: newName,
+        number: newNumber,
+      };
+      const promise = phonebookService.create(newPerson);
+      promise.then(responseHandler);
+      console.log({ newName });
+    }
+    setFormSuccess(`added ${newName}`);
   };
 
   const handleSearchPerson = (e) => {
@@ -71,6 +75,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={formSuccess} />
       <Filter
         searchString={searchString}
         handleSearchPerson={handleSearchPerson}
