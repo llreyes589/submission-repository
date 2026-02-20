@@ -11,7 +11,10 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchString, setSearchString] = useState("");
-  const [formSuccess, setFormSuccess] = useState("");
+  const [formStatus, setFormStatus] = useState({
+    message: "",
+    status: "success",
+  });
 
   useEffect(() => {
     const eventHandler = (response) => {
@@ -33,13 +36,20 @@ const App = () => {
       if (confirm) {
         // update number service
         const promise = phonebookService.updateNumber(person, newNumber);
-        promise.then((response) => {
-          setPersons(
-            persons.map((person) =>
-              person.id === response.id ? response : person,
-            ),
+        promise
+          .then((response) => {
+            setPersons(
+              persons.map((person) =>
+                person.id === response.id ? response : person,
+              ),
+            );
+          })
+          .catch((error) =>
+            setFormStatus({
+              message: `Information of ${person.name} has already been removed from server.`,
+              status: "error",
+            }),
           );
-        });
       }
       // return;
     } else {
@@ -58,9 +68,8 @@ const App = () => {
       };
       const promise = phonebookService.create(newPerson);
       promise.then(responseHandler);
-      console.log({ newName });
     }
-    setFormSuccess(`added ${newName}`);
+    setFormStatus({ message: `added ${newName}`, status: "success" });
   };
 
   const handleSearchPerson = (e) => {
@@ -72,10 +81,23 @@ const App = () => {
     setPersons(value ? filteredPersons : persons);
   };
 
+  const handleDeleteConfirmation = (person) => () => {
+    const confirm = window.confirm(`Delete ${person.name}?`);
+    if (confirm) {
+      const promise = phonebookService.deletePhonebook(person.id);
+      promise.then((response) => {
+        const newPersons = persons.filter(
+          (person) => person.id !== response.id,
+        );
+        setPersons(newPersons);
+      });
+    }
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={formSuccess} />
+      <Notification message={formStatus.message} status={formStatus.status} />
       <Filter
         searchString={searchString}
         handleSearchPerson={handleSearchPerson}
@@ -89,7 +111,11 @@ const App = () => {
         setNewNumber={setNewNumber}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} setPersons={setPersons} />
+      <Persons
+        persons={persons}
+        setPersons={setPersons}
+        handleDeleteConfirmation={handleDeleteConfirmation}
+      />
     </div>
   );
 };
