@@ -22,11 +22,29 @@ const App = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (persons.some((person) => person.name === newName))
-      return alert(`${newName} is already added to phonebook`);
+    const person = persons.find((person) => person.name === newName);
+    if (person) {
+      const confirm = window.confirm(
+        `${newName} is already added to phonebook. Replace the old number  with a new one?`,
+      );
+
+      if (confirm) {
+        // update number service
+        const promise = phonebookService.updateNumber(person, newNumber);
+        promise.then((response) => {
+          setPersons(
+            persons.map((person) =>
+              person.id === response.id ? response : person,
+            ),
+          );
+        });
+      }
+      return;
+    }
 
     const responseHandler = (response) => {
       const newPhonebook = {
+        id: response.id,
         name: response.name,
         number: response.number,
       };

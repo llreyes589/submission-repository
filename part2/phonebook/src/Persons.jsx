@@ -2,12 +2,16 @@ import phonebookService from "./services/phonebooks";
 
 const Persons = ({ persons, setPersons }) => {
   const handleDeleteConfirmation = (person) => () => {
-    window.confirm(`Delete ${person.name}?`);
-    const promise = phonebookService.deletePhonebook(person.id);
-    promise.then((response) => {
-      const newPersons = persons.filter((person) => person.id !== response.id);
-      setPersons(newPersons);
-    });
+    const confirm = window.confirm(`Delete ${person.name}?`);
+    if (confirm) {
+      const promise = phonebookService.deletePhonebook(person.id);
+      promise.then((response) => {
+        const newPersons = persons.filter(
+          (person) => person.id !== response.id,
+        );
+        setPersons(newPersons);
+      });
+    }
   };
   return (
     <>

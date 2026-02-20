@@ -16,8 +16,17 @@ const deletePhonebook = (id) => {
   return response.then((response) => response.data);
 };
 
+const updateNumber = (person, number) => {
+  const response = axios.put(`${baseUrl}/${person.id}`, {
+    name: person.name,
+    number,
+  });
+  return response.then((response) => response.data);
+};
+
 export default {
   getAll,
   create,
   deletePhonebook,
+  updateNumber,
 };
