@@ -7,7 +7,11 @@ const CountriesList = ({ countries }) => {
     return (
       <ul>
         {countries.map((country) => (
-          <li key={country.name.common}>{country.name.common}</li>
+          <li key={country.name.common}>
+            <span>
+              {country.name.common} <button>Show</button>
+            </span>
+          </li>
         ))}
       </ul>
     );
