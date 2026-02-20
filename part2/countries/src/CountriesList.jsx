@@ -1,6 +1,6 @@
 import React from "react";
 
-const CountriesList = ({ countries }) => {
+const CountriesList = ({ setSearchString, countries }) => {
   if (countries.length >= 10)
     return <p>Too many matches, speify another filter</p>;
   else if (countries.length <= 10 && countries.length > 1)
@@ -9,7 +9,10 @@ const CountriesList = ({ countries }) => {
         {countries.map((country) => (
           <li key={country.name.common}>
             <span>
-              {country.name.common} <button>Show</button>
+              {country.name.common}{" "}
+              <button onClick={() => setSearchString(country.name.common)}>
+                Show
+              </button>
             </span>
           </li>
         ))}

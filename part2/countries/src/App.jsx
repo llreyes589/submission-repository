@@ -35,7 +35,10 @@ const App = () => {
   return (
     <div>
       <Search searchString={searchString} setSearchString={onSearch} />
-      <CountriesList countries={filteredCountries} />
+      <CountriesList
+        setSearchString={setSearchString}
+        countries={filteredCountries}
+      />
     </div>
   );
 };
