@@ -29,6 +29,8 @@ app.use(express.json());
 app.post("/api/persons", (request, response) => {
   const body = request.body;
 
+  hasError(body, response);
+
   const person = {
     name: body.name,
     number: body.number,
@@ -64,6 +66,17 @@ app.delete("/api/persons/:id", (request, response) => {
 
 const generateRandomId = () => {
   return Math.floor(Math.random() * 1000);
+};
+
+const hasError = (body, response) => {
+  if (!body.name || !body.number)
+    return response
+      .status(401)
+      .json({ message: "name or number is missing" })
+      .end();
+  const person = persons.find((person) => person.name === body.name);
+  if (person)
+    return response.status(401).json({ message: "already exists" }).end();
 };
 
 const findPerson = (id, response) => {
