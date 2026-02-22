@@ -36,12 +36,23 @@ app.get("/info", (request, response) => {
 
 app.get("/api/persons/:id", (request, response) => {
   const id = request.params.id;
-  const person = persons.find((person) => person.id === id);
-
-  if (!person) return response.status(404).end();
+  const person = findPerson(id, response);
   response.json(person);
 });
 
+app.delete("/api/persons/:id", (request, response) => {
+  const id = request.params.id;
+  findPerson(id, response);
+  const filteredPersons = persons.filter((person) => person.id !== id);
+  response.json(filteredPersons);
+});
+
+const findPerson = (id, response) => {
+  const person = persons.find((person) => person.id === id);
+
+  if (!person) return response.status(404).end();
+  return person;
+};
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
