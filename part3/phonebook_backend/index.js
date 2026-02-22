@@ -24,6 +24,21 @@ const persons = [
   },
 ];
 
+app.use(express.json());
+
+app.post("/api/persons", (request, response) => {
+  const body = request.body;
+
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generateRandomId(),
+  };
+
+  const newPersons = persons.concat(person);
+  response.json(newPersons);
+});
+
 app.get("/api/persons", (request, response) => {
   response.json(persons);
 });
@@ -46,6 +61,10 @@ app.delete("/api/persons/:id", (request, response) => {
   const filteredPersons = persons.filter((person) => person.id !== id);
   response.json(filteredPersons);
 });
+
+const generateRandomId = () => {
+  return Math.floor(Math.random() * 1000);
+};
 
 const findPerson = (id, response) => {
   const person = persons.find((person) => person.id === id);
