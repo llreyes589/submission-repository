@@ -1,4 +1,5 @@
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
 
 const persons = [
@@ -85,6 +86,10 @@ const findPerson = (id, response) => {
   if (!person) return response.status(404).end();
   return person;
 };
+
+// add morgan
+app.use(morgan);
+
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
