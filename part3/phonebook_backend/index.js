@@ -26,6 +26,14 @@ const persons = [
 ];
 
 app.use(express.json());
+// add morgan
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms :body"),
+);
+
+morgan.token("body", (req) => {
+  return JSON.stringify(req.body);
+});
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
@@ -86,9 +94,6 @@ const findPerson = (id, response) => {
   if (!person) return response.status(404).end();
   return person;
 };
-
-// add morgan
-app.use(morgan);
 
 const PORT = 3000;
 app.listen(PORT, () => {
