@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://submission-repository-qjwn.onrender.com",
+        target: "http://localhost:3001",
         changeOrigin: true,
       },
     },
