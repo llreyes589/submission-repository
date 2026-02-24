@@ -40,16 +40,14 @@ morgan.token("body", (req) => {
 app.post("/api/persons", (request, response) => {
   const body = request.body;
 
-  hasError(body, response);
+  // hasError(body, response);
 
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
-    id: generateRandomId(),
-  };
+  });
 
-  const newPersons = persons.concat(person);
-  response.json(newPersons);
+  person.save().then((savedPhonebook) => response.json(savedPhonebook));
 });
 
 app.get("/api/persons", (request, response) => {
