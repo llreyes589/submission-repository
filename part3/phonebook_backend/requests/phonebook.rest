@@ -1,4 +1,4 @@
-GET http://localhost:3001/api/persons/123
+GET http://localhost:3001/api/perso
 
 ###
 DELETE http://localhost:3001/api/persons/2ddd

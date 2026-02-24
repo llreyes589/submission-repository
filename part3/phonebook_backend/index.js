@@ -14,6 +14,20 @@ morgan.token("body", (req) => {
   return JSON.stringify(req.body);
 });
 
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
+
+// handler of requests with unknown endpoint
+
+// middlewares
+const errorHandler = (error, request, response, next) => {
+  if (error.name === "CastError") {
+    response.status(404).json({ message: "malformatted id" }).end();
+  }
+  next(error);
+};
+
 app.post("/api/persons", (request, response) => {
   const body = request.body;
 
@@ -56,6 +70,9 @@ app.delete("/api/persons/:id", (request, response, next) => {
     })
     .catch((error) => next(error));
 });
+app.use(unknownEndpoint);
+
+app.use(errorHandler);
 
 const generateRandomId = () => {
   return Math.floor(Math.random() * 1000);
