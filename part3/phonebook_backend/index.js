@@ -32,6 +32,7 @@ app.post("/api/persons", (request, response) => {
   const body = request.body;
 
   // hasError(body, response);
+  const user = updateUserNumber(body, response);
 
   const person = new Person({
     name: body.name,
@@ -84,9 +85,11 @@ const hasError = (body, response) => {
       .status(401)
       .json({ message: "name or number is missing" })
       .end();
-  const person = persons.find((person) => person.name === body.name);
-  if (person)
-    return response.status(401).json({ message: "already exists" }).end();
+};
+const updateUserNumber = (body, response) => {
+  Person.find({
+    name: body.name,
+  }).then((result) => console.log("result", result));
 };
 
 const findPerson = (id, response) => {
