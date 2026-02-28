@@ -32,14 +32,24 @@ app.post("/api/persons", (request, response) => {
   const body = request.body;
 
   // hasError(body, response);
-  const user = updateUserNumber(body, response);
-
   const person = new Person({
     name: body.name,
     number: body.number,
   });
 
   person.save().then((savedPhonebook) => response.json(savedPhonebook));
+});
+
+app.put("/api/persons/:id", (request, response, next) => {
+  const id = request.params.id;
+  const { name, number } = request.body;
+  Person.findById(id).then((result) => {
+    if (!result) return response.status(404).end();
+
+    result.name = name;
+    result.number = number;
+    result.save().then((updatedPerson) => response.json(updatedPerson));
+  });
 });
 
 app.get("/api/persons", (request, response) => {
@@ -87,7 +97,7 @@ const hasError = (body, response) => {
       .end();
 };
 const updateUserNumber = (body, response) => {
-  Person.find({
+  return Person.find({
     name: body.name,
   }).then((result) => console.log("result", result));
 };
