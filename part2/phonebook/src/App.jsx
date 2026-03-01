@@ -67,7 +67,12 @@ const App = () => {
         number: newNumber,
       };
       const promise = phonebookService.create(newPerson);
-      promise.then(responseHandler);
+      promise.then(responseHandler).catch((error) =>
+        setFormStatus({
+          message: error.response.data.error,
+          status: "error",
+        }),
+      );
     }
     setFormStatus({ message: `added ${newName}`, status: "success" });
   };
